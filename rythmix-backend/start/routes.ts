@@ -17,9 +17,12 @@ router.get('/', async () => {
   }
 })
 
-router.group(() => {
-  router.get('/redirect', [AuthController, 'redirect']).as('redirect')
-  router.get('/callback', [AuthController, 'callback']).as('callback')
-  router.get('/logout', [AuthController, 'logout']).as('logout')
-  router.get('/me', [AuthController, 'me']).as('me')
-}).prefix('auth').as('auth')
+router
+  .group(() => {
+    router.get('/redirect', [AuthController, 'redirect']).as('redirect')
+    router.get('/callback', [AuthController, 'callback']).as('callback')
+    router.get('/logout', [AuthController, 'logout']).as('logout')
+    router.get('/me', [AuthController, 'me']).as('me')
+  })
+  .prefix('auth')
+  .as('auth')

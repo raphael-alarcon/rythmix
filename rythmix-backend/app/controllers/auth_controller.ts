@@ -1,15 +1,14 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import User from '#models/user';
-import logger from '@adonisjs/core/services/logger';
+import User from '#models/user'
+import logger from '@adonisjs/core/services/logger'
 
 export default class AuthController {
-
   public async redirect({ ally }: HttpContext) {
-    return ally.use('spotify').redirect()
+    return ally.use('spotify')
   }
 
   public async callback({ ally, session, auth }: HttpContext) {
-    const spotify = ally.use('spotify');
+    const spotify = ally.use('spotify')
     if (spotify.accessDenied()) {
       session.flash('flash', 'Access was denied')
     }
@@ -39,14 +38,15 @@ export default class AuthController {
     logger.info(`[${user.email}] auth success`)
   }
 
-  async logout({ auth, session }: HttpContext) {
+  async logout({ auth, session, response }: HttpContext) {
     await auth.use('web').logout()
     session.flash('flash', 'Successfully disconnected')
+    response.clearCookie('spotify_oauth_state')
     logger.info(`[${auth.user?.email}] disconnected successfully`)
   }
 
   async me({ auth, response }: HttpContext) {
-    await auth.use('web').authenticate()
+    await auth.authenticate()
     response.ok(auth.user)
   }
 }
