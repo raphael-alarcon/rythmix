@@ -5,7 +5,7 @@ import { UserDto } from '../dtos/user_dto.js'
 
 export default class AuthController {
   public async redirect({ ally }: HttpContext) {
-    return ally.use('spotify').redirect()
+    return await ally.use('spotify').redirect()
   }
 
   public async callback({ ally, session, auth, response }: HttpContext) {
@@ -36,7 +36,7 @@ export default class AuthController {
 
     await auth.use('web').login(user)
     session.flash('flash', 'Successfully authenticated')
-    response.ok({ message: 'Successfully authenticated' })
+    response.redirect().toPath("http://localhost:3000")
   }
 
   async logout({ auth, response }: HttpContext) {

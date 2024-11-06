@@ -5,7 +5,7 @@ export class UserDto {
 
   toJson() {
     return {
-      avatarUrl: this.user.avatarUrl,
+      avatarUrl: this.user.avatarUrl || '',
       nickName: this.user.name,
       email: this.user.email,
     }

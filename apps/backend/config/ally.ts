@@ -7,7 +7,7 @@ const allyConfig = defineConfig({
     clientSecret: env.get('SPOTIFY_CLIENT_SECRET'),
     callbackUrl: `${env.get('APP_URL')}/auth/callback`,
     scopes: ['user-read-email', 'streaming'],
-    showDialog: false,
+    showDialog: true,
   }),
 })
 

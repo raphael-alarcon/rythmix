@@ -20,7 +20,7 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @column({ serializeAs: null })
   declare email: string | null
 
-  @column({ serializeAs: 'nickName' })
+  @column()
   declare nickName: string
 
   @column()
@@ -29,7 +29,7 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @column({ serializeAs: null })
   declare isVerified: boolean
 
-  @column({ serializeAs: 'avatarUrl' })
+  @column()
   declare avatarUrl: string | null
 
   @column({ serializeAs: null })
