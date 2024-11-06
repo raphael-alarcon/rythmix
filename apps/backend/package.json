@@ -61,6 +61,7 @@
     "@adonisjs/cors": "^2.2.1",
     "@adonisjs/lucid": "^21.3.0",
     "@adonisjs/session": "^7.5.0",
+    "@rythmix/backend": "file:",
     "@tuyau/core": "^0.2.1",
     "@vinejs/vine": "^2.1.0",
     "luxon": "^3.5.0",
