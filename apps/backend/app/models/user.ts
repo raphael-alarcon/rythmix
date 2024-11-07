@@ -1,10 +1,10 @@
 import { DateTime } from 'luxon'
 import hash from '@adonisjs/core/services/hash'
 import { compose } from '@adonisjs/core/helpers'
-import { BaseModel, beforeCreate, column } from '@adonisjs/lucid/orm'
+import { BaseModel, beforeCreate, column, hasOne } from '@adonisjs/lucid/orm'
 import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
-
-import type { SpotifyToken } from '@adonisjs/ally/types'
+import SpotifyAccount from './spotify_account.js'
+import type { HasOne } from '@adonisjs/lucid/types/relations'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -17,23 +17,17 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @column({ isPrimary: true, serializeAs: null })
   declare id: string
 
-  @column({ serializeAs: null })
-  declare email: string | null
+  @column()
+  declare email: string
 
   @column()
-  declare nickName: string
-
-  @column()
-  declare name: string
+  declare username: string
 
   @column({ serializeAs: null })
-  declare isVerified: boolean
+  declare password: string
 
-  @column()
-  declare avatarUrl: string | null
-
-  @column({ serializeAs: null })
-  declare token: SpotifyToken
+  @hasOne(() => SpotifyAccount)
+  declare profile: HasOne<typeof SpotifyAccount>
 
   @column.dateTime({
     autoCreate: true,

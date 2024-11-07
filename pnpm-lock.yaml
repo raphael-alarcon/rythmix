@@ -13,6 +13,9 @@ importers:
 
   apps/backend:
     dependencies:
+      '@adocasts.com/dto':
+        specifier: ^0.0.6
+        version: 0.0.6(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(typescript@5.6.3))(@vinejs/vine@2.1.0))(@adonisjs/lucid@21.3.0(@adonisjs/assembler@7.8.2(typescript@5.6.3))(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(typescript@5.6.3))(@vinejs/vine@2.1.0))(luxon@3.5.0)(pg@8.13.1))(@japa/assert@3.0.0(@japa/runner@3.1.4)(openapi-types@1.3.4))(@japa/runner@3.1.4)
       '@adonisjs/ally':
         specifier: ^5.0.2
         version: 5.0.2(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(typescript@5.6.3))(@vinejs/vine@2.1.0))
@@ -31,6 +34,9 @@ importers:
       '@adonisjs/session':
         specifier: ^7.5.0
         version: 7.5.0(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(typescript@5.6.3))(@vinejs/vine@2.1.0))(@japa/api-client@2.0.3(@japa/assert@3.0.0(@japa/runner@3.1.4)(openapi-types@1.3.4))(@japa/runner@3.1.4))
+      '@rythmix/backend':
+        specifier: 'file:'
+        version: 'link:'
       '@tuyau/core':
         specifier: ^0.2.1
         version: 0.2.1(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(typescript@5.6.3))(@vinejs/vine@2.1.0))
@@ -118,7 +124,7 @@ importers:
         version: link:../backend
       '@tanstack/react-query':
         specifier: ^5.59.19
-        version: 5.59.19(react@19.0.0-rc-02c0e824-20241028)
+        version: 5.59.20(react@19.0.0-rc-02c0e824-20241028)
       '@tuyau/client':
         specifier: ^0.1.3
         version: 0.1.3
@@ -173,6 +179,13 @@ importers:
         version: 5.6.3
 
 packages:
+
+  '@adocasts.com/dto@0.0.6':
+    resolution: {integrity: sha512-fIerzz/MYnFUwqCo5WRW7dhZzngW84gCwcwD36vdgHRbG+RGWPUL7D3r13AoL/xLubbV2j3asUo8lyaWTJXN0g==}
+    engines: {node: '>=20.6.0'}
+    peerDependencies:
+      '@adonisjs/core': ^6.2.0
+      '@adonisjs/lucid': ^21.1.0
 
   '@adonisjs/ace@13.3.0':
     resolution: {integrity: sha512-68dveDFd766p69cBvK/MtOrOP0+YKYLeHspa9KLEWcWk9suPf3pbGkHQ2pwDnvLJxBPHk4932KbbSSzzpGNZGw==}
@@ -506,8 +519,8 @@ packages:
     resolution: {integrity: sha512-JBxkERygn7Bv/GbN5Rv8Ul6LVknS+5Bp6RgDC/O8gEBU/yeH5Ui5C/OlWrTb6qct7LjjfT6Re2NxB0ln0yYybA==}
     engines: {node: '>=18.18'}
 
-  '@humanwhocodes/retry@0.4.0':
-    resolution: {integrity: sha512-xnRgu9DxZbkWak/te3fcytNyp8MTbuiZIaueg2rgEvBuN55n04nwLYLU9TX/VVlusc9L2ZNXi99nUFNkHXtr5g==}
+  '@humanwhocodes/retry@0.4.1':
+    resolution: {integrity: sha512-c7hNEllBlenFTHBky65mhq8WD2kbN9Q6gk0bTk8lSBvc554jpXSkST1iePudpt7+A/AQvuHs9EMqjHDXMY1lrA==}
     engines: {node: '>=18.18'}
 
   '@img/sharp-darwin-arm64@0.33.5':
@@ -642,6 +655,13 @@ packages:
   '@japa/errors-printer@3.0.4':
     resolution: {integrity: sha512-gqBWkc8X6n5y91HH7H8fXyfe3rKV1+YeMNgE/+CY6hXf0/BS7J55s/QldosKEV2ZiWj/WmE6UPZiFH8W873fGw==}
     engines: {node: '>=18.16.0'}
+
+  '@japa/file-system@2.3.0':
+    resolution: {integrity: sha512-cQ4IKHRcJs//ktR2mmvYpmFhDfD0V6xOFxr6wl6CJBpbSQT0MadCaWAqFyr+1oHHGTptaTkhFfUrHJoobSS7Fg==}
+    engines: {node: '>=18.16.0'}
+    peerDependencies:
+      '@japa/assert': ^2.0.0 || ^3.0.0
+      '@japa/runner': ^3.0.0
 
   '@japa/plugin-adonisjs@3.0.1':
     resolution: {integrity: sha512-xUZOzfBXSz2sWRoQT+qs+6LZBtWWE+cCBZ3j9ckz6+nPw3VI0nV6yLaX+oud3AY8Zb+BH+pErABBhaovZYv9dA==}
@@ -1031,11 +1051,11 @@ packages:
     resolution: {integrity: sha512-+PmQX0PiAYPMeVYe237LJAYvOMYW1j2rH5YROyS3b4CTVJum34HfRvKvAzozHAQG0TnHNdUfY9nCeUyRAs//cw==}
     engines: {node: '>=14.16'}
 
-  '@tanstack/query-core@5.59.17':
-    resolution: {integrity: sha512-jWdDiif8kaqnRGHNXAa9CnudtxY5v9DUxXhodgqX2Rwzj+1UwStDHEbBd9IA5C7VYAaJ2s+BxFR6PUBs8ERorA==}
+  '@tanstack/query-core@5.59.20':
+    resolution: {integrity: sha512-e8vw0lf7KwfGe1if4uPFhvZRWULqHjFcz3K8AebtieXvnMOz5FSzlZe3mTLlPuUBcydCnBRqYs2YJ5ys68wwLg==}
 
-  '@tanstack/react-query@5.59.19':
-    resolution: {integrity: sha512-xLRfyFyQOFcLltKCds0LijfC6/HQJrrTTnZB8ciyn74LIkVAm++vZJ6eUVG20RmJtdP8REdy7vSOYW4M3//XLA==}
+  '@tanstack/react-query@5.59.20':
+    resolution: {integrity: sha512-Zly0egsK0tFdfSbh5/mapSa+Zfc3Et0Zkar7Wo5sQkFzWyB3p3uZWOHR2wrlAEEV2L953eLuDBtbgFvMYiLvUw==}
     peerDependencies:
       react: ^18 || ^19
 
@@ -1123,8 +1143,8 @@ packages:
   '@types/prop-types@15.7.13':
     resolution: {integrity: sha512-hCZTSvwbzWGvhqxp/RqVqwU999pBf2vp7hzIjiYOsl8wqOmUxkQ6ddw1cV3l8811+kdUFus/q4d1Y3E3SyEifA==}
 
-  '@types/qs@6.9.16':
-    resolution: {integrity: sha512-7i+zxXdPD0T4cKDuxCUXJ4wHcsJLwENa6Z3dCu8cfCK743OGy5Nu1RmAGqDPsoTDINVEcdXKRvR/zre+P2Ku1A==}
+  '@types/qs@6.9.17':
+    resolution: {integrity: sha512-rX4/bPcfmvxHDv0XjfJELTTr+iB+tn032nPILqHm5wbthUUUuVtNGGqzhya9XUxjTP8Fpr0qYgSZZKxGY++svQ==}
 
   '@types/react-dom@18.3.1':
     resolution: {integrity: sha512-qW1Mfv8taImTthu4KoXgDfLuk4bydU6Q/TkADnDWWHwi4NX4BR+LWfTp2sVmTqRrsHvyDDTelgelxJ+SsejKKQ==}
@@ -1442,8 +1462,8 @@ packages:
     resolution: {integrity: sha512-8WB3Jcas3swSvjIeA2yvCJ+Miyz5l1ZmB6HFb9R1317dt9LCQoswg/BGrmAmkWVEszSrrg4RwmO46qIm2OEnSA==}
     engines: {node: '>=16'}
 
-  caniuse-lite@1.0.30001677:
-    resolution: {integrity: sha512-fmfjsOlJUpMWu+mAAtZZZHz7UEwsUxIIvu1TJfO1HqFQvB/B+ii0xr9B5HpbZY/mC4XZ8SvjHJqtAY6pDPQEog==}
+  caniuse-lite@1.0.30001678:
+    resolution: {integrity: sha512-RR+4U/05gNtps58PEBDZcPWTgEO2MBeoPZ96aQcjmfkBWRIDfN451fW2qyDA9/+HohLLIL5GqiMwA+IB1pWarw==}
 
   case-anything@3.1.0:
     resolution: {integrity: sha512-rRYnn5Elur8RuNHKoJ2b0tgn+pjYxL7BzWom+JZ7NKKn1lt/yGV/tUNwOovxYa9l9VL5hnXQdMc+mENbhJzosQ==}
@@ -1792,8 +1812,8 @@ packages:
   ee-first@1.1.1:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
 
-  electron-to-chromium@1.5.51:
-    resolution: {integrity: sha512-kKeWV57KSS8jH4alKt/jKnvHPmJgBxXzGUSbMd4eQF+iOsVPl7bz2KUmu6eo80eMP8wVioTfTyTzdMgM15WXNg==}
+  electron-to-chromium@1.5.52:
+    resolution: {integrity: sha512-xtoijJTZ+qeucLBDNztDOuQBE1ksqjvNjvqFoST3nGC7fSpqJ+X6BdTBaY5BHG+IhWWmpc6b/KfpeuEDupEPOQ==}
 
   emittery@1.0.3:
     resolution: {integrity: sha512-tJdCJitoy2lrC2ldJcqN4vkqJ00lT+tOWNT1hBJjO/3FDMJa5TTIiYGCKGkn/WfCyOzUMObeohbVTj00fhiLiA==}
@@ -4040,6 +4060,15 @@ packages:
 
 snapshots:
 
+  '@adocasts.com/dto@0.0.6(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(typescript@5.6.3))(@vinejs/vine@2.1.0))(@adonisjs/lucid@21.3.0(@adonisjs/assembler@7.8.2(typescript@5.6.3))(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(typescript@5.6.3))(@vinejs/vine@2.1.0))(luxon@3.5.0)(pg@8.13.1))(@japa/assert@3.0.0(@japa/runner@3.1.4)(openapi-types@1.3.4))(@japa/runner@3.1.4)':
+    dependencies:
+      '@adonisjs/core': 6.14.1(@adonisjs/assembler@7.8.2(typescript@5.6.3))(@vinejs/vine@2.1.0)
+      '@adonisjs/lucid': 21.3.0(@adonisjs/assembler@7.8.2(typescript@5.6.3))(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(typescript@5.6.3))(@vinejs/vine@2.1.0))(luxon@3.5.0)(pg@8.13.1)
+      '@japa/file-system': 2.3.0(@japa/assert@3.0.0(@japa/runner@3.1.4)(openapi-types@1.3.4))(@japa/runner@3.1.4)
+    transitivePeerDependencies:
+      - '@japa/assert'
+      - '@japa/runner'
+
   '@adonisjs/ace@13.3.0':
     dependencies:
       '@poppinss/cliui': 6.4.1
@@ -4112,7 +4141,7 @@ snapshots:
       '@poppinss/macroable': 1.0.3
       '@poppinss/multiparty': 2.0.1
       '@poppinss/utils': 6.8.3
-      '@types/qs': 6.9.16
+      '@types/qs': 6.9.17
       bytes: 3.1.2
       file-type: 19.6.0
       inflation: 2.1.0
@@ -4459,7 +4488,7 @@ snapshots:
 
   '@humanwhocodes/retry@0.3.1': {}
 
-  '@humanwhocodes/retry@0.4.0': {}
+  '@humanwhocodes/retry@0.4.1': {}
 
   '@img/sharp-darwin-arm64@0.33.5':
     optionalDependencies:
@@ -4586,6 +4615,15 @@ snapshots:
       supports-color: 9.4.0
       youch: 3.3.4
       youch-terminal: 2.2.3
+
+  '@japa/file-system@2.3.0(@japa/assert@3.0.0(@japa/runner@3.1.4)(openapi-types@1.3.4))(@japa/runner@3.1.4)':
+    dependencies:
+      '@japa/assert': 3.0.0(@japa/runner@3.1.4)(openapi-types@1.3.4)
+      '@japa/runner': 3.1.4
+      '@paralleldrive/cuid2': 2.2.2
+      '@poppinss/macroable': 1.0.3
+      readdirp: 3.6.0
+      slash: 5.1.0
 
   '@japa/plugin-adonisjs@3.0.1(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(typescript@5.6.3))(@vinejs/vine@2.1.0))(@japa/api-client@2.0.3(@japa/assert@3.0.0(@japa/runner@3.1.4)(openapi-types@1.3.4))(@japa/runner@3.1.4))(@japa/runner@3.1.4)':
     dependencies:
@@ -4923,11 +4961,11 @@ snapshots:
     dependencies:
       defer-to-connect: 2.0.1
 
-  '@tanstack/query-core@5.59.17': {}
+  '@tanstack/query-core@5.59.20': {}
 
-  '@tanstack/react-query@5.59.19(react@19.0.0-rc-02c0e824-20241028)':
+  '@tanstack/react-query@5.59.20(react@19.0.0-rc-02c0e824-20241028)':
     dependencies:
-      '@tanstack/query-core': 5.59.17
+      '@tanstack/query-core': 5.59.20
       react: 19.0.0-rc-02c0e824-20241028
 
   '@tokenizer/token@0.3.0': {}
@@ -5005,7 +5043,7 @@ snapshots:
 
   '@types/prop-types@15.7.13': {}
 
-  '@types/qs@6.9.16': {}
+  '@types/qs@6.9.17': {}
 
   '@types/react-dom@18.3.1':
     dependencies:
@@ -5391,8 +5429,8 @@ snapshots:
 
   browserslist@4.24.2:
     dependencies:
-      caniuse-lite: 1.0.30001677
-      electron-to-chromium: 1.5.51
+      caniuse-lite: 1.0.30001678
+      electron-to-chromium: 1.5.52
       node-releases: 2.0.18
       update-browserslist-db: 1.1.1(browserslist@4.24.2)
 
@@ -5437,7 +5475,7 @@ snapshots:
 
   camelcase@8.0.0: {}
 
-  caniuse-lite@1.0.30001677: {}
+  caniuse-lite@1.0.30001678: {}
 
   case-anything@3.1.0: {}
 
@@ -5745,7 +5783,7 @@ snapshots:
 
   ee-first@1.1.1: {}
 
-  electron-to-chromium@1.5.51: {}
+  electron-to-chromium@1.5.52: {}
 
   emittery@1.0.3: {}
 
@@ -6113,7 +6151,7 @@ snapshots:
       '@eslint/plugin-kit': 0.2.2
       '@humanfs/node': 0.16.6
       '@humanwhocodes/module-importer': 1.0.1
-      '@humanwhocodes/retry': 0.4.0
+      '@humanwhocodes/retry': 0.4.1
       '@types/estree': 1.0.6
       '@types/json-schema': 7.0.15
       ajv: 6.12.6
@@ -6970,7 +7008,7 @@ snapshots:
       '@swc/counter': 0.1.3
       '@swc/helpers': 0.5.13
       busboy: 1.6.0
-      caniuse-lite: 1.0.30001677
+      caniuse-lite: 1.0.30001678
       postcss: 8.4.31
       react: 19.0.0-rc-02c0e824-20241028
       react-dom: 19.0.0-rc-02c0e824-20241028(react@19.0.0-rc-02c0e824-20241028)

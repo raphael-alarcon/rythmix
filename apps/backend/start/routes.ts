@@ -10,6 +10,7 @@
 import router from '@adonisjs/core/services/router'
 
 const AuthController = () => import('#controllers/auth_controller')
+const UsersController = () => import('#controllers/users_controller')
 
 router.get('/', async () => {
   return {
@@ -17,9 +18,13 @@ router.get('/', async () => {
   }
 })
 
-router.group(() => {
-  router.get('/redirect', [AuthController, 'redirect']).as('redirect')
-  router.get('/callback', [AuthController, 'callback']).as('callback')
-  router.get('/logout', [AuthController, 'logout']).as('logout')
-  router.get('/me', [AuthController, 'me']).as('me')
-}).prefix('auth').as('auth')
+router
+  .group(() => {
+    router.post('/login', [AuthController, 'login']).as('login')
+    router.post('/logout', [AuthController, 'logout']).as('logout')
+    router.get('/me', [AuthController, 'me']).as('me')
+  })
+  .prefix('auth')
+  .as('auth')
+
+router.resource('users', UsersController).apiOnly()
