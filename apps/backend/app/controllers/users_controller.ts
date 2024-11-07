@@ -1,28 +1,28 @@
 import type { HttpContext } from '@adonisjs/core/http'
+import { inject } from '@adonisjs/core'
+import UserService from '#services/user_service'
+import { registerValidator } from '#validators/auth'
 
+@inject()
 export default class UsersController {
-  /**
-   * Display a list of resource
-   */
-  async index({}: HttpContext) {}
+  constructor(private _userService: UserService) {}
 
-  /**
-   * Handle form submission for the create action
-   */
-  async store({ request }: HttpContext) {}
+  async index({}: HttpContext) {
+    return await this._userService.all()
+  }
 
-  /**
-   * Show individual record
-   */
+  async store({ request, session, response }: HttpContext) {
+    const data = await request.validateUsing(registerValidator)
+
+    const user = await this._userService.create({ data })
+
+    session.flash('success', 'Successfully registered')
+    return response.redirect('/')
+  }
+
   async show({ params }: HttpContext) {}
 
-  /**
-   * Handle form submission for the edit action
-   */
   async update({ params, request }: HttpContext) {}
 
-  /**
-   * Delete record
-   */
   async destroy({ params }: HttpContext) {}
 }

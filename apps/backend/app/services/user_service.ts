@@ -1,11 +1,17 @@
 import User from '#models/user'
+import { Infer } from '@vinejs/vine/types'
+import { registerValidator } from '#validators/auth'
+
+type RegisterParams = {
+  data: Infer<typeof registerValidator>
+}
 
 export default class UserService {
   all() {
     return User.all()
   }
 
-  create(data: Partial<User>) {
+  create({ data }: RegisterParams) {
     return User.create(data)
   }
 

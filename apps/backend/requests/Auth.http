@@ -1,0 +1,40 @@
+###
+### GET All users
+GET http://localhost:3333/users
+Accept: application/json
+
+###
+### POST Register new user
+POST http://localhost:3333/users
+Content-Type: application/json
+
+{
+  "email": "test@test.com",
+  "password": "Test123*",
+  "username": "Test User",
+  "confirmPassword": "Test123*"
+}
+
+###
+### POST Login
+POST http://localhost:3333/auth/login
+Content-Type: application/json
+
+{
+  "email": "test@test.com",
+  "password": "Test123*"
+}
+
+###
+### GET Profile
+GET http://localhost:3333/auth/me
+Access-Control-Allow-Credentials: true
+Authorization: Basic test@test.co Test123*
+
+###
+### POST Logout
+POST http://localhost:3333/auth/logout
+Content-Type: application/json
+
+{}
+

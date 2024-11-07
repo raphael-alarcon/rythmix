@@ -18,13 +18,13 @@ router.get('/', async () => {
   }
 })
 
-router.group(() => {
+router
+  .group(() => {
+    router.post('/login', [AuthController, 'login']).as('login')
+    router.post('/logout', [AuthController, 'logout']).as('logout')
+    router.get('/me', [AuthController, 'me']).as('me')
+  })
+  .prefix('auth')
+  .as('auth')
 
-  router.post('/login', [AuthController, 'login']).as('login')
-  router.post('/logout', [AuthController, 'logout']).as('logout')
-  router.post('/register', [UsersController, 'store']).as('register')
-  router.get('/me', [AuthController, 'me']).as('me')
-
-  // router.get('/redirect', [AuthController, 'redirect']).as('redirect')
-  // router.get('/callback', [AuthController, 'callback']).as('callback')
-}).prefix('auth').as('auth')
+router.resource('users', UsersController).apiOnly()

@@ -18,13 +18,13 @@ export default class User extends compose(BaseModel, AuthFinder) {
   declare id: string
 
   @column()
-  declare email: string | null
+  declare email: string
 
   @column()
   declare username: string
 
-  @column()
-  declare name: string
+  @column({ serializeAs: null })
+  declare password: string
 
   @hasOne(() => SpotifyAccount)
   declare profile: HasOne<typeof SpotifyAccount>
