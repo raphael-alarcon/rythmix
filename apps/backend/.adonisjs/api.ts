@@ -1,14 +1,13 @@
-import type { MakeTuyauResponse } from '@tuyau/utils/types'
+import type { MakeTuyauRequest, MakeTuyauResponse } from '@tuyau/utils/types'
+import type { InferInput } from '@vinejs/vine/types'
 
-type AuthRedirectGetHead = {
-  request: unknown
-  response: MakeTuyauResponse<import('../app/controllers/auth_controller.ts').default['redirect']>
+type AuthLoginPost = {
+  request: MakeTuyauRequest<
+    InferInput<(typeof import('../app/validators/auth.ts'))['loginValidator']>
+  >
+  response: MakeTuyauResponse<import('../app/controllers/auth_controller.ts').default['login']>
 }
-type AuthCallbackGetHead = {
-  request: unknown
-  response: MakeTuyauResponse<import('../app/controllers/auth_controller.ts').default['callback']>
-}
-type AuthLogoutGetHead = {
+type AuthLogoutPost = {
   request: unknown
   response: MakeTuyauResponse<import('../app/controllers/auth_controller.ts').default['logout']>
 }
@@ -16,22 +15,38 @@ type AuthMeGetHead = {
   request: unknown
   response: MakeTuyauResponse<import('../app/controllers/auth_controller.ts').default['me']>
 }
+type UsersGetHead = {
+  request: unknown
+  response: MakeTuyauResponse<import('../app/controllers/users_controller.ts').default['index']>
+}
+type UsersPost = {
+  request: MakeTuyauRequest<
+    InferInput<(typeof import('../app/validators/auth.ts'))['registerValidator']>
+  >
+  response: MakeTuyauResponse<import('../app/controllers/users_controller.ts').default['store']>
+}
+type UsersIdGetHead = {
+  request: unknown
+  response: MakeTuyauResponse<import('../app/controllers/users_controller.ts').default['show']>
+}
+type UsersIdPutPatch = {
+  request: unknown
+  response: MakeTuyauResponse<import('../app/controllers/users_controller.ts').default['update']>
+}
+type UsersIdDelete = {
+  request: unknown
+  response: MakeTuyauResponse<import('../app/controllers/users_controller.ts').default['destroy']>
+}
+
 export interface ApiDefinition {
   auth: {
-    redirect: {
+    login: {
       $url: {}
-      $get: AuthRedirectGetHead
-      $head: AuthRedirectGetHead
-    }
-    callback: {
-      $url: {}
-      $get: AuthCallbackGetHead
-      $head: AuthCallbackGetHead
+      $post: AuthLoginPost
     }
     logout: {
       $url: {}
-      $get: AuthLogoutGetHead
-      $head: AuthLogoutGetHead
+      $post: AuthLogoutPost
     }
     me: {
       $url: {}
@@ -39,28 +54,36 @@ export interface ApiDefinition {
       $head: AuthMeGetHead
     }
   }
+  users: {
+    '$url': {}
+    '$get': UsersGetHead
+    '$head': UsersGetHead
+    '$post': UsersPost
+    ':id': {
+      $url: {}
+      $get: UsersIdGetHead
+      $head: UsersIdGetHead
+      $put: UsersIdPutPatch
+      $patch: UsersIdPutPatch
+      $delete: UsersIdDelete
+    }
+  }
 }
+
 const routes = [
   {
     params: [],
-    name: 'auth.redirect',
-    path: '/auth/redirect',
-    method: ['GET', 'HEAD'],
-    types: {} as AuthRedirectGetHead,
-  },
-  {
-    params: [],
-    name: 'auth.callback',
-    path: '/auth/callback',
-    method: ['GET', 'HEAD'],
-    types: {} as AuthCallbackGetHead,
+    name: 'auth.login',
+    path: '/auth/login',
+    method: ['POST'],
+    types: {} as AuthLoginPost,
   },
   {
     params: [],
     name: 'auth.logout',
     path: '/auth/logout',
-    method: ['GET', 'HEAD'],
-    types: {} as AuthLogoutGetHead,
+    method: ['POST'],
+    types: {} as AuthLogoutPost,
   },
   {
     params: [],
@@ -68,6 +91,41 @@ const routes = [
     path: '/auth/me',
     method: ['GET', 'HEAD'],
     types: {} as AuthMeGetHead,
+  },
+  {
+    params: [],
+    name: 'users.index',
+    path: '/users',
+    method: ['GET', 'HEAD'],
+    types: {} as UsersGetHead,
+  },
+  {
+    params: [],
+    name: 'users.store',
+    path: '/users',
+    method: ['POST'],
+    types: {} as UsersPost,
+  },
+  {
+    params: ['id'],
+    name: 'users.show',
+    path: '/users/:id',
+    method: ['GET', 'HEAD'],
+    types: {} as UsersIdGetHead,
+  },
+  {
+    params: ['id'],
+    name: 'users.update',
+    path: '/users/:id',
+    method: ['PUT', 'PATCH'],
+    types: {} as UsersIdPutPatch,
+  },
+  {
+    params: ['id'],
+    name: 'users.destroy',
+    path: '/users/:id',
+    method: ['DELETE'],
+    types: {} as UsersIdDelete,
   },
 ] as const
 export const api = {

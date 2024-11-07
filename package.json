@@ -1,21 +1,18 @@
 {
   "name": "@acme/monorepo",
-  "type": "module",
+  "bun": {
+    "overrides": {
+      "strtok3": "8.0.1"
+    }
+  },
   "overrides": {
     "strtok3": "8.0.1"
   },
   "resolutions": {
     "strtok3": "8.0.1"
   },
-  "bun": {
-    "overrides": {
-      "strtok3": "8.0.1"
-    }
-  },
+  "type": "module",
   "workspaces": [
     "apps/*"
-  ],
-  "scripts": {
-    "postinstall": "patch-package"
-  }
+  ]
 }
