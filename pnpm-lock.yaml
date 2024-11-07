@@ -9,14 +9,13 @@ overrides:
 
 importers:
 
-  .:
-    dependencies:
-      '@babel/runtime':
-        specifier: ^7.26.0
-        version: 7.26.0
+  .: {}
 
   apps/backend:
     dependencies:
+      '@adocasts.com/dto':
+        specifier: ^0.0.6
+        version: 0.0.6(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(typescript@5.6.3))(@vinejs/vine@2.1.0))(@adonisjs/lucid@21.3.0(@adonisjs/assembler@7.8.2(typescript@5.6.3))(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(typescript@5.6.3))(@vinejs/vine@2.1.0))(luxon@3.5.0)(pg@8.13.1))(@japa/assert@3.0.0(@japa/runner@3.1.4)(openapi-types@1.3.4))(@japa/runner@3.1.4)
       '@adonisjs/ally':
         specifier: ^5.0.2
         version: 5.0.2(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(typescript@5.6.3))(@vinejs/vine@2.1.0))
@@ -35,6 +34,9 @@ importers:
       '@adonisjs/session':
         specifier: ^7.5.0
         version: 7.5.0(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(typescript@5.6.3))(@vinejs/vine@2.1.0))(@japa/api-client@2.0.3(@japa/assert@3.0.0(@japa/runner@3.1.4)(openapi-types@1.3.4))(@japa/runner@3.1.4))
+      '@rythmix/backend':
+        specifier: 'file:'
+        version: 'link:'
       '@tuyau/core':
         specifier: ^0.2.1
         version: 0.2.1(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(typescript@5.6.3))(@vinejs/vine@2.1.0))
@@ -295,6 +297,13 @@ importers:
         version: 5.6.3
 
 packages:
+
+  '@adocasts.com/dto@0.0.6':
+    resolution: {integrity: sha512-fIerzz/MYnFUwqCo5WRW7dhZzngW84gCwcwD36vdgHRbG+RGWPUL7D3r13AoL/xLubbV2j3asUo8lyaWTJXN0g==}
+    engines: {node: '>=20.6.0'}
+    peerDependencies:
+      '@adonisjs/core': ^6.2.0
+      '@adonisjs/lucid': ^21.1.0
 
   '@adonisjs/ace@13.3.0':
     resolution: {integrity: sha512-68dveDFd766p69cBvK/MtOrOP0+YKYLeHspa9KLEWcWk9suPf3pbGkHQ2pwDnvLJxBPHk4932KbbSSzzpGNZGw==}
@@ -1712,6 +1721,13 @@ packages:
   '@japa/errors-printer@3.0.4':
     resolution: {integrity: sha512-gqBWkc8X6n5y91HH7H8fXyfe3rKV1+YeMNgE/+CY6hXf0/BS7J55s/QldosKEV2ZiWj/WmE6UPZiFH8W873fGw==}
     engines: {node: '>=18.16.0'}
+
+  '@japa/file-system@2.3.0':
+    resolution: {integrity: sha512-cQ4IKHRcJs//ktR2mmvYpmFhDfD0V6xOFxr6wl6CJBpbSQT0MadCaWAqFyr+1oHHGTptaTkhFfUrHJoobSS7Fg==}
+    engines: {node: '>=18.16.0'}
+    peerDependencies:
+      '@japa/assert': ^2.0.0 || ^3.0.0
+      '@japa/runner': ^3.0.0
 
   '@japa/plugin-adonisjs@3.0.1':
     resolution: {integrity: sha512-xUZOzfBXSz2sWRoQT+qs+6LZBtWWE+cCBZ3j9ckz6+nPw3VI0nV6yLaX+oud3AY8Zb+BH+pErABBhaovZYv9dA==}
@@ -8075,6 +8091,15 @@ packages:
 
 snapshots:
 
+  '@adocasts.com/dto@0.0.6(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(typescript@5.6.3))(@vinejs/vine@2.1.0))(@adonisjs/lucid@21.3.0(@adonisjs/assembler@7.8.2(typescript@5.6.3))(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(typescript@5.6.3))(@vinejs/vine@2.1.0))(luxon@3.5.0)(pg@8.13.1))(@japa/assert@3.0.0(@japa/runner@3.1.4)(openapi-types@1.3.4))(@japa/runner@3.1.4)':
+    dependencies:
+      '@adonisjs/core': 6.14.1(@adonisjs/assembler@7.8.2(typescript@5.6.3))(@vinejs/vine@2.1.0)
+      '@adonisjs/lucid': 21.3.0(@adonisjs/assembler@7.8.2(typescript@5.6.3))(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(typescript@5.6.3))(@vinejs/vine@2.1.0))(luxon@3.5.0)(pg@8.13.1)
+      '@japa/file-system': 2.3.0(@japa/assert@3.0.0(@japa/runner@3.1.4)(openapi-types@1.3.4))(@japa/runner@3.1.4)
+    transitivePeerDependencies:
+      - '@japa/assert'
+      - '@japa/runner'
+
   '@adonisjs/ace@13.3.0':
     dependencies:
       '@poppinss/cliui': 6.4.1
@@ -10050,6 +10075,15 @@ snapshots:
       supports-color: 9.4.0
       youch: 3.3.4
       youch-terminal: 2.2.3
+
+  '@japa/file-system@2.3.0(@japa/assert@3.0.0(@japa/runner@3.1.4)(openapi-types@1.3.4))(@japa/runner@3.1.4)':
+    dependencies:
+      '@japa/assert': 3.0.0(@japa/runner@3.1.4)(openapi-types@1.3.4)
+      '@japa/runner': 3.1.4
+      '@paralleldrive/cuid2': 2.2.2
+      '@poppinss/macroable': 1.0.3
+      readdirp: 3.6.0
+      slash: 5.1.0
 
   '@japa/plugin-adonisjs@3.0.1(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(typescript@5.6.3))(@vinejs/vine@2.1.0))(@japa/api-client@2.0.3(@japa/assert@3.0.0(@japa/runner@3.1.4)(openapi-types@1.3.4))(@japa/runner@3.1.4))(@japa/runner@3.1.4)':
     dependencies:

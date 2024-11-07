@@ -14,5 +14,8 @@
   },
   "workspaces": [
     "apps/*"
-  ]
+  ],
+  "scripts": {
+    "postinstall": "patch-package"
+  }
 }
