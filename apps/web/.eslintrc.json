@@ -1,7 +1,13 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript"],
+  "extends": [
+    "next/core-web-vitals",
+    "next/typescript"
+  ],
   "rules": {
-	"@typescript-eslint/no-unused-vars": "warn",
-	"indent": ["error", "tab", 2]
+    "@typescript-eslint/no-unused-vars": "warn",
+    "indent": [
+      "error",
+      2
+    ]
   }
 }

@@ -17,7 +17,7 @@ export default class AuthController {
   async me({ auth, response }: HttpContext) {
     await auth.authenticate()
     const user = auth.getUserOrFail()
-    response.ok(new UserDto(user))
+    return new UserDto(user)
   }
 
   async logout({ auth, response }: HttpContext) {
