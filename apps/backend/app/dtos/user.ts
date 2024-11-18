@@ -3,7 +3,6 @@ import User from '#models/user'
 import SpotifyAccountDto from '#dtos/spotify_account'
 
 export default class UserDto extends BaseModelDto {
-  declare id: string
   declare email: string
   declare username: string
   declare profile: SpotifyAccountDto | null
@@ -14,7 +13,6 @@ export default class UserDto extends BaseModelDto {
     super()
 
     if (!user) return
-    this.id = user.id
     this.email = user.email
     this.username = user.username
     this.profile = user.profile && new SpotifyAccountDto(user.profile)

@@ -10,8 +10,7 @@ export default class AuthController {
     const { email, password } = await request.validateUsing(loginValidator)
     const user = await User.verifyCredentials(email, password)
 
-    await auth.use('web').login(user)
-    response.ok(new UserDto(user))
+    return User.accessTokens.create(user)
   }
 
   async me({ auth, response }: HttpContext) {
@@ -20,8 +19,9 @@ export default class AuthController {
     return new UserDto(user)
   }
 
-  async logout({ auth, response }: HttpContext) {
-    await auth.use('web').logout()
-    return response.ok({ message: 'Logged out' })
+  async logout({ auth }: HttpContext) {
+    const user = auth.user!
+    await User.accessTokens.delete(user, user.currentAccessToken.identifier)
+    return { message: 'success' }
   }
 }

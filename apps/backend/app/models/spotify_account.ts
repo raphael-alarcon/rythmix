@@ -1,9 +1,11 @@
 import { DateTime } from 'luxon'
-import { BaseModel, beforeCreate, column } from '@adonisjs/lucid/orm'
+import { BaseModel, column } from '@adonisjs/lucid/orm'
 
 import type { SpotifyToken } from '@adonisjs/ally/types'
 
 export default class SpotifyAccount extends BaseModel {
+  static selfAssignPrimaryKey = true
+
   @column({ isPrimary: true, serializeAs: null })
   declare id: string
 
@@ -13,12 +15,16 @@ export default class SpotifyAccount extends BaseModel {
   @column()
   declare nickName: string
 
+  @column()
+  declare name: string
+
   @column({ serializeAs: null })
   declare email: string
 
   @column({ serializeAs: null })
   declare token: SpotifyToken
 
+  //#region Metadata
   @column.dateTime({
     autoCreate: true,
     serialize: (value: DateTime) => value.toISODate(),
@@ -33,9 +39,10 @@ export default class SpotifyAccount extends BaseModel {
     serializeAs: 'updatedAt',
   })
   declare updatedAt: DateTime
+  //#endregion
 
-  @beforeCreate()
-  static assignUuid(user: SpotifyAccount) {
-    user.id = crypto.randomUUID()
-  }
+  //#region Relationships
+  @column({ serializeAs: null })
+  declare userId: string
+  //#endregion
 }
