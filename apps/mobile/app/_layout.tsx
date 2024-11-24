@@ -13,7 +13,6 @@ import "react-native-reanimated";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import "@/global.css";
 import ReactQueryProvider from "@/components/providers/query-client-provider";
-import AuthProvider from "@/components/providers/auth-provider";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -36,18 +35,16 @@ export default function RootLayout() {
 
   return (
     <ReactQueryProvider>
-      <AuthProvider>
-        <GluestackUIProvider mode="light">
-          <ThemeProvider
-            value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-          >
-            <Stack>
-              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-              <Stack.Screen name="+not-found" />
-            </Stack>
-          </ThemeProvider>
-        </GluestackUIProvider>
-      </AuthProvider>
+      <GluestackUIProvider mode="light">
+        <ThemeProvider
+          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+        >
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="+not-found" />
+          </Stack>
+        </ThemeProvider>
+      </GluestackUIProvider>
     </ReactQueryProvider>
   );
 }

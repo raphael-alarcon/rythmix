@@ -1,15 +1,10 @@
 import { InferResponseType } from "@tuyau/client";
 import { tuyau } from "@/lib/constants";
-import { create } from "zustand/react";
+import { create } from "zustand";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-interface AuthResponse {
-  token: string;
-}
 
 type MeResponse = InferResponseType<typeof tuyau.auth.me.$get>;
 
-// TODO: Create Zod schema for login
 type LoginPayload = {
   email: string;
   password: string;

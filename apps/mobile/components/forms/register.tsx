@@ -15,25 +15,34 @@ import { Icon } from "@/components/ui/icon";
 import { Icons } from "@/components/icons";
 import { PasswordInput } from "@/components/ui/password-input/password-input";
 import { Link, LinkText } from "@/components/ui/link";
-import { openURL } from "expo-linking";
-import { useAuth } from "@/components/providers/auth-provider";
 import * as WebBrowser from "expo-web-browser";
-import { useState } from "react";
+import {
+  makeRedirectUri,
+  useAuthRequest,
+  useAutoDiscovery,
+} from "expo-auth-session";
+import { useEffect } from "react";
 
 WebBrowser.maybeCompleteAuthSession();
 
 export function RegisterForm() {
-  const { logout } = useAuth();
+  const discovery = useAutoDiscovery("http://localhost:3333/spotify/redirect");
 
-  const [result, setResult] = useState({});
+  const [request, response, promptAsync] = useAuthRequest(
+    {
+      clientId: "CLIENT_ID",
+      scopes: [],
+      redirectUri: makeRedirectUri({
+        native: "rythmix://",
+      }),
+    },
+    discovery,
+  );
 
-  const _handlePressButtonAsync = async () => {
-    let result = await WebBrowser.openBrowserAsync(
-      "http://localhost:3333/spotify/redirect",
-    );
-    console.log(result);
-    setResult(result);
-  };
+  useEffect(() => {
+    console.log(response);
+  }, [response]);
+
   return (
     <VStack className="w-80">
       <Center className="mb-4">
@@ -62,7 +71,7 @@ export function RegisterForm() {
             <PasswordInput placeholder="Enter your password" />
           </Input>
         </FormControl>
-        <Button onPress={_handlePressButtonAsync}>
+        <Button>
           <ButtonText>Sign up</ButtonText>
         </Button>
         <HStack className="my-1 w-full relative">
@@ -75,8 +84,9 @@ export function RegisterForm() {
         </HStack>
         <Button
           variant="outline"
+          disabled={!request}
           onPress={() => {
-            openURL("http://localhost:3333/spotify/redirect");
+            promptAsync();
           }}
         >
           <ButtonText>Connect with</ButtonText>
