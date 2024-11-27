@@ -20,19 +20,17 @@ export default class SpotifyAuthController {
 
     const encodedState = encryption.encrypt(JSON.stringify(state))
 
-    return await ally.use('spotify').redirect((redirectRequest) => {
-      redirectRequest.param('state', encodedState)
-    })
+    return await ally.use('spotify').redirect()
   }
 
   public async callback({ ally, request, response }: HttpContext) {
     const { state: encodedState } = request.all()
 
-    const state: State | null = encryption.decrypt(encodedState)
-
-    if (!state) {
-      return response.badRequest('Invalid state')
-    }
+    // const state: State | null = encryption.decrypt(encodedState)
+    //
+    // if (!state) {
+    //   return response.badRequest('Invalid state')
+    // }
 
     const spotify = ally.use('spotify')
     if (spotify.accessDenied()) {
@@ -73,6 +71,6 @@ export default class SpotifyAuthController {
 
     const userToken = User.accessTokens.create(userOwningSpotifyAccount)
 
-    response.redirect().toPath(`${state.appRedirectUri}?token=${token.token}`)
+    response.redirect().toPath(`rythmix://?access_token=${token.token}`)
   }
 }

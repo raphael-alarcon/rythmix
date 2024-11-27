@@ -26,17 +26,20 @@ import { useEffect } from "react";
 WebBrowser.maybeCompleteAuthSession();
 
 export function RegisterForm() {
-  const discovery = useAutoDiscovery("http://localhost:3333/spotify/redirect");
 
   const [request, response, promptAsync] = useAuthRequest(
     {
       clientId: "CLIENT_ID",
-      scopes: [],
+      extraParams: {
+        appRedirectUri: "rythmix://",
+      },
       redirectUri: makeRedirectUri({
         native: "rythmix://",
       }),
     },
-    discovery,
+    {
+      authorizationEndpoint: "http://localhost:3333/spotify/redirect"
+    },
   );
 
   useEffect(() => {
