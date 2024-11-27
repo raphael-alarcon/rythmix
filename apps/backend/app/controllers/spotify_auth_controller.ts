@@ -1,39 +1,76 @@
 import type { HttpContext } from '@adonisjs/core/http'
-
 import SpotifyAccount from '#models/spotify_account'
+import UserService from '#services/user_service'
+import { inject } from '@adonisjs/core'
+import User from '#models/user'
+import { spotifyRedirectValidator } from '#validators/spotify_auth'
+import encryption from '@adonisjs/core/services/encryption'
 
+interface State {
+  appRedirectUri: string
+}
+
+@inject()
 export default class SpotifyAuthController {
-  public async redirect({ ally }: HttpContext) {
+  constructor(private userService: UserService) {}
+
+  public async redirect({ ally, request }: HttpContext) {
+    const { appRedirectUri } = await request.validateUsing(spotifyRedirectValidator)
+    const state: State = { appRedirectUri }
+
+    const encodedState = encryption.encrypt(JSON.stringify(state))
+
     return await ally.use('spotify').redirect()
   }
 
-  public async callback({ ally, session, response }: HttpContext) {
+  public async callback({ ally, request, response }: HttpContext) {
+    const { state: encodedState } = request.all()
+
+    // const state: State | null = encryption.decrypt(encodedState)
+    //
+    // if (!state) {
+    //   return response.badRequest('Invalid state')
+    // }
+
     const spotify = ally.use('spotify')
     if (spotify.accessDenied()) {
-      session.flash('flash', 'Access was denied')
+      response.abort('Access denied')
     }
 
     if (spotify.stateMisMatch()) {
-      session.flash('flash', 'Request expired. Retry again')
+      response.abort('Invalid state')
     }
 
     if (spotify.hasError()) {
-      session.flash('flash', spotify.getError() || 'Something went wrong')
+      response.abort(spotify.getError() || 'Something went wrong')
     }
 
     const { emailVerificationState, token, original, ...spotifyUser } = await spotify.user()
     const spotifyAccount = await SpotifyAccount.updateOrCreate(
       {
-        email: spotifyUser.email,
+        id: spotifyUser.id,
       },
       {
         ...spotifyUser,
-
         token,
       }
     )
 
-    session.flash('flash', 'Successfully authenticated')
-    response.redirect().toPath('http://localhost:3000')
+    let userOwningSpotifyAccount =
+      await this.userService.getUserOwningSpotifyAccount(spotifyAccount)
+
+    if (!userOwningSpotifyAccount) {
+      userOwningSpotifyAccount = await User.create({
+        email: spotifyUser.email,
+        username: spotifyUser.nickName,
+        password: crypto.randomUUID(),
+      })
+    }
+
+    await userOwningSpotifyAccount.related('profile').save(spotifyAccount)
+
+    const userToken = User.accessTokens.create(userOwningSpotifyAccount)
+
+    response.redirect().toPath(`rythmix://?access_token=${token.token}`)
   }
 }

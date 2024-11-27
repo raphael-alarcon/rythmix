@@ -1,17 +1,16 @@
 import User from '#models/user'
 import { Infer } from '@vinejs/vine/types'
 import { registerValidator } from '#validators/auth'
+import SpotifyAccount from '#models/spotify_account'
 
-type RegisterParams = {
-  data: Infer<typeof registerValidator>
-}
+type RegisterParams = Infer<typeof registerValidator>
 
 export default class UserService {
   all() {
     return User.all()
   }
 
-  create({ data }: RegisterParams) {
+  create(data: RegisterParams) {
     return User.create(data)
   }
 
@@ -26,5 +25,9 @@ export default class UserService {
   update(user: User, data: User) {
     user.merge(data)
     return user.save()
+  }
+
+  async getUserOwningSpotifyAccount(spotifyAccount: SpotifyAccount) {
+    return User.find(spotifyAccount.userId)
   }
 }
