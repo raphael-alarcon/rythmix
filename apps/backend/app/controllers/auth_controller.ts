@@ -4,6 +4,7 @@ import User from '#models/user'
 import UserDto from '#dtos/user'
 
 import { loginValidator } from '#validators/auth'
+import logger from '@adonisjs/core/services/logger'
 
 export default class AuthController {
   async login({ request, auth, response }: HttpContext) {
@@ -13,14 +14,15 @@ export default class AuthController {
     return User.accessTokens.create(user)
   }
 
-  async me({ auth, response }: HttpContext) {
-    await auth.authenticate()
+  async me({ auth, response, request }: HttpContext) {
     const user = auth.getUserOrFail()
+    await user.load('profile')
     return new UserDto(user)
   }
 
   async logout({ auth }: HttpContext) {
-    const user = auth.user!
+    const user = auth.getUserOrFail()
+    logger.info('Logging out user', user)
     await User.accessTokens.delete(user, user.currentAccessToken.identifier)
     return { message: 'success' }
   }

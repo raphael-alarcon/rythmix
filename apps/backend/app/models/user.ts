@@ -5,7 +5,7 @@ import { BaseModel, column, hasOne } from '@adonisjs/lucid/orm'
 import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
 import SpotifyAccount from './spotify_account.js'
 import type { HasOne } from '@adonisjs/lucid/types/relations'
-import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
+import { AccessToken, DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -42,6 +42,8 @@ export default class User extends compose(BaseModel, AuthFinder) {
     serializeAs: 'updatedAt',
   })
   declare updatedAt: DateTime
+
+  currentAccessToken?: AccessToken
 
   static accessTokens = DbAccessTokensProvider.forModel(User)
 }

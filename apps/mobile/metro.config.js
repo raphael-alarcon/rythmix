@@ -1,9 +1,12 @@
+const {
+    withNativeWind: withNativeWind
+} = require("nativewind/metro");
+
 const { getDefaultConfig } = require('expo/metro-config');
 const path = require('path');
-const {withNativeWind} = require("nativewind/metro");
+const fs = require('fs');
 
 // Find the project and workspace directories
-// eslint-disable-next-line no-undef
 const projectRoot = __dirname;
 // This can be replaced with `find-yarn-workspace-root`
 const monorepoRoot = path.resolve(projectRoot, '../..');
@@ -18,4 +21,23 @@ config.resolver.nodeModulesPaths = [
     path.resolve(monorepoRoot, 'node_modules'),
 ];
 
-module.exports = withNativeWind(config, { input: "./global.css" });;
+config.resolver.resolveRequest = (context, moduleName, platform) => {
+    if ((moduleName.startsWith('.') || moduleName.startsWith('/')) && moduleName.endsWith('.js')) {
+        const possibleResolvedTsFile = path
+            .resolve(context.originModulePath, '..', moduleName)
+            .replace(/\.js$/, '.ts');
+
+        if (fs.existsSync(possibleResolvedTsFile)) {
+            return {
+                filePath: possibleResolvedTsFile,
+                type: 'sourceFile',
+            };
+        }
+    }
+
+    return context.resolveRequest(context, moduleName, platform);
+};
+
+module.exports = withNativeWind(config, {
+    input: "./global.css"
+});

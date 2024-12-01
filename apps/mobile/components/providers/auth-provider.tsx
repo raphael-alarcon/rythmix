@@ -1,9 +1,10 @@
 import { InferResponseType } from "@tuyau/client";
-import { tuyau } from "@/lib/constants";
 import { create } from "zustand";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { tuyau } from "@/constants/tuyau";
+import { router } from "expo-router";
 
-type MeResponse = InferResponseType<typeof tuyau.auth.me.$get>;
+export type MeResponse = InferResponseType<typeof tuyau.auth.me.$get>;
 
 type LoginPayload = {
   email: string;
@@ -33,6 +34,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
     await tuyau.auth.logout.$post().unwrap();
     set(() => ({ user: null, token: null }));
     await AsyncStorage.removeItem("token");
+    router.push("/register");
   },
 
   me: async () => {
