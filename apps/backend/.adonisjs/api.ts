@@ -1,5 +1,5 @@
 import type { MakeTuyauRequest, MakeTuyauResponse } from '@tuyau/utils/types'
-import { InferInput } from '@vinejs/vine/types'
+import type { InferInput } from '@vinejs/vine/types'
 
 type AuthLoginPost = {
   request: MakeTuyauRequest<
@@ -16,7 +16,9 @@ type AuthMeGetHead = {
   response: MakeTuyauResponse<import('../app/controllers/auth_controller.ts').default['me']>
 }
 type SpotifyRedirectGetHead = {
-  request: unknown
+  request: MakeTuyauRequest<
+    InferInput<(typeof import('../app/validators/spotify_auth.ts'))['spotifyRedirectValidator']>
+  >
   response: MakeTuyauResponse<
     import('../app/controllers/spotify_auth_controller.ts').default['redirect']
   >
@@ -26,6 +28,10 @@ type SpotifyCallbackGetHead = {
   response: MakeTuyauResponse<
     import('../app/controllers/spotify_auth_controller.ts').default['callback']
   >
+}
+type TestGetHead = {
+  request: unknown
+  response: MakeTuyauResponse<import('../app/controllers/tests_controller.ts').default['handle']>
 }
 type UsersGetHead = {
   request: unknown
@@ -78,6 +84,11 @@ export interface ApiDefinition {
       $head: SpotifyCallbackGetHead
     }
   }
+  test: {
+    $url: {}
+    $get: TestGetHead
+    $head: TestGetHead
+  }
   users: {
     '$url': {}
     '$get': UsersGetHead
@@ -129,6 +140,13 @@ const routes = [
     path: '/spotify/callback',
     method: ['GET', 'HEAD'],
     types: {} as SpotifyCallbackGetHead,
+  },
+  {
+    params: [],
+    name: 'test',
+    path: '/test',
+    method: ['GET', 'HEAD'],
+    types: {} as TestGetHead,
   },
   {
     params: [],

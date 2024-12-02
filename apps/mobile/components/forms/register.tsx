@@ -11,40 +11,49 @@ import { Button, ButtonText } from "@/components/ui/button";
 import { HStack } from "@/components/ui/hstack";
 import { Divider } from "@/components/ui/divider";
 import { Text } from "react-native";
-import { Icon } from "@/components/ui/icon";
 import { Icons } from "@/components/icons";
-import { PasswordInput } from "@/components/ui/password-input/password-input";
 import { Link, LinkText } from "@/components/ui/link";
 import * as WebBrowser from "expo-web-browser";
-import {
-  makeRedirectUri,
-  useAuthRequest,
-  useAutoDiscovery,
-} from "expo-auth-session";
+import { makeRedirectUri, useAuthRequest } from "expo-auth-session";
+import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
+import useAuthStore, { MeResponse } from "@/components/providers/auth-provider";
+import { randomUUID } from "expo-crypto";
+import { Icon } from "@/components/ui/icon";
+import { PasswordInput } from "@/components/ui/password-input/password-input";
+import { router } from "expo-router";
 
 WebBrowser.maybeCompleteAuthSession();
 
 export function RegisterForm() {
-
+  const { me, setToken, user } = useAuthStore();
   const [request, response, promptAsync] = useAuthRequest(
     {
       clientId: "CLIENT_ID",
-      extraParams: {
-        appRedirectUri: "rythmix://",
-      },
       redirectUri: makeRedirectUri({
         native: "rythmix://",
       }),
+      state: randomUUID(),
     },
     {
-      authorizationEndpoint: "http://localhost:3333/spotify/redirect"
+      authorizationEndpoint: "http://localhost:3333/spotify/redirect",
     },
   );
 
+  const { error } = useQuery<MeResponse>({
+    queryKey: ["currentUser", response],
+    queryFn: async () => {
+      return await me();
+    },
+  });
+
   useEffect(() => {
-    console.log(response);
-  }, [response]);
+    if (response?.type === "success") {
+      const { access_token } = response.params;
+      setToken(access_token);
+      router.replace("/");
+    }
+  }, [response, error]);
 
   return (
     <VStack className="w-80">

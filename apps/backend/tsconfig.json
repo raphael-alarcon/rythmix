@@ -5,6 +5,5 @@
     "outDir": "./build",
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "moduleResolution": "Bundler"
   }
 }

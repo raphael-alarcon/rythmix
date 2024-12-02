@@ -3,15 +3,16 @@ import {
   DefaultTheme,
   ThemeProvider,
 } from "@react-navigation/native";
-import { GluestackUIProvider } from "@/components/providers/gluestack-ui-provider";
 import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
+import { Slot } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
-import "@/global.css";
+import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
+
+import "../global.css";
 import ReactQueryProvider from "@/components/providers/query-client-provider";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -35,14 +36,11 @@ export default function RootLayout() {
 
   return (
     <ReactQueryProvider>
-      <GluestackUIProvider mode="light">
+      <GluestackUIProvider>
         <ThemeProvider
           value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
         >
-          <Stack>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="+not-found" />
-          </Stack>
+          <Slot />
         </ThemeProvider>
       </GluestackUIProvider>
     </ReactQueryProvider>
