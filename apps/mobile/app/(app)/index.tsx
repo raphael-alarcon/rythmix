@@ -1,21 +1,26 @@
 import { VStack } from "@/components/ui/vstack";
-import { Center } from "@/components/ui/center";
 import { Navbar } from "@/components/navbar";
-import { Card } from "@/components/ui/card";
 import { Text } from "@/components/ui/text";
+import { HStack } from "@/components/ui/hstack";
+import { Card } from "@/components/ui/card";
 
 export default function HomeScreen() {
   return (
-    <VStack className="h-screen w-screen justify-center">
-      <Center className="mt-20 h-full flex w-11/12">
+    <VStack className="h-screen w-screen items-center px-6">
+      <VStack className="mt-20 h-full flex w-full" space="4xl">
         <Navbar />
-        <Card>
+        <VStack className="flex-1 justify-start w-full" space={"md"}>
           <VStack>
-            <Text>Welcome to Rythmix!</Text>
-            <Text>Get started by logging in or registering.</Text>
+            <HStack className="justify-between items-center">
+              <Text bold size="3xl">
+                Friends
+              </Text>
+              <Text className="text-typography-500">Show all</Text>
+            </HStack>
+            <Card></Card>
           </VStack>
-        </Card>
-      </Center>
+        </VStack>
+      </VStack>
     </VStack>
   );
 }
