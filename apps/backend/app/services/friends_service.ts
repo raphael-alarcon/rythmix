@@ -1,12 +1,17 @@
 import User from '#models/user'
 
-export class FriendService {
-  async friends(userId: number) {
-    return await this.listRequestsByStatus(userId, 'accepted')
+export const FRIEND_STATUSES = ['pending', 'accepted', 'rejected'] as const
+export type FriendStatus = (typeof FRIEND_STATUSES)[number]
+
+export class FriendsService {
+  async getFriends(user: User, status?: FriendStatus) {
+    return await this.listRequestsByStatus(user, status || 'accepted')
   }
 
-  async send(userId: number, friendId: number) {
-    const [user, friend] = await User.findMany([userId, friendId])
+  async sendRequest(user: User, friend: User) {
+    if (!user || !friend) {
+      throw new Error('User or friend not found')
+    }
     await user.related('friends').attach({
       [friend.id]: {
         sender: true,
@@ -15,60 +20,49 @@ export class FriendService {
     await friend.related('friends').attach([user.id])
   }
 
-  async remove(userId: number, friendId: number) {
-    const [user, friend] = await User.findMany([userId, friendId])
-
+  async removeFriend(user: User, friend: User) {
+    if (!user || !friend) {
+      throw new Error('User or friend not found')
+    }
     await user.related('friends').detach([friend.id])
     await friend.related('friends').detach([user.id])
   }
 
-  async reject(userId: number, friendId: number) {
-    const [user, friend] = await User.findMany([userId, friendId])
-
-    await user.related('friends').sync({
-      [friend.id]: {
-        status: 'rejected',
-      },
-    })
-    await friend.related('friends').sync({
-      [user.id]: {
-        status: 'rejected',
-      },
-    })
-  }
-
-  async accept(userId: number, friendId: number) {
-    const [user, friend] = await User.findMany([userId, friendId])
-
-    await user.related('friends').sync({
-      [friend.id]: {
-        status: 'accepted',
-      },
-    })
-    await friend.related('friends').sync({
-      [user.id]: {
-        status: 'accepted',
-      },
-    })
-  }
-
-  async findRequest(userId: number, friendId: number) {
-    const [user, friend] = await User.findMany([userId, friendId])
+  async answerRequest(user: User, friend: User, action: 'accept' | 'reject') {
     if (!user || !friend) {
-      throw new Error('User not found')
+      throw new Error('User or friend not found')
     }
+
+    // accept -> accepted, reject -> rejected
+    const actionResult = `${action}ed`
+
+    await user.related('friends').sync({
+      [friend.id]: {
+        status: actionResult,
+      },
+    })
+    await friend.related('friends').sync({
+      [user.id]: {
+        status: actionResult,
+      },
+    })
+  }
+
+  async findRequest(user: User, friend: User) {
+    if (!user || !friend) return null
     return await user
       .related('friends')
       .query()
-      .where('friend_id', friend.id)
       .pivotColumns(['status', 'sender'])
       .wherePivot('friend_id', friend.id)
       .first()
   }
 
-  async listRequestsByStatus(userId: number, status: 'pending' | 'accepted' | 'rejected') {
-    const user = await User.findOrFail(userId)
-    return user
+  async listRequestsByStatus(user: User, status: FriendStatus) {
+    if (!user) {
+      throw new Error('User not found')
+    }
+    return await user
       .related('friends')
       .query()
       .pivotColumns(['status', 'sender'])
