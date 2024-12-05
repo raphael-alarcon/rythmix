@@ -19,7 +19,6 @@ test.group('Auth', (group) => {
       password: 'Test123*',
       confirmPassword: 'Test123*',
     })
-
     response2.assertStatus(422)
   })
 })

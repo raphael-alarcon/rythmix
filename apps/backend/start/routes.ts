@@ -14,13 +14,9 @@ const AuthController = () => import('#controllers/auth_controller')
 const UsersController = () => import('#controllers/users_controller')
 const SpotifyAuthController = () => import('#controllers/spotify_auth_controller')
 const TestController = () => import('#controllers/tests_controller')
+const FriendsController = () => import('#controllers/friends_controller')
 
-router.get('/', async () => {
-  return {
-    hello: 'world',
-  }
-})
-
+//#region Auth
 router
   .group(() => {
     router.post('/login', [AuthController, 'login']).as('login')
@@ -37,7 +33,9 @@ router
   })
   .prefix('spotify')
   .as('spotify')
+//#endregion
 
 router.get('test', [TestController]).as('test')
 
 router.resource('users', UsersController).apiOnly()
+router.resource('users.friends', FriendsController).apiOnly()
