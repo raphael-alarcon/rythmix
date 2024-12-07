@@ -14,12 +14,8 @@ export default class UserService {
     return User.create(data)
   }
 
-  find(id: number) {
-    return User.findOrFail(id)
-  }
-
-  findByEmail(email: string) {
-    return User.findBy('email', email)
+  async find(id: string | number) {
+    return await User.findOrFail(id)
   }
 
   update(user: User, data: User) {
@@ -28,6 +24,6 @@ export default class UserService {
   }
 
   async getUserOwningSpotifyAccount(spotifyAccount: SpotifyAccount) {
-    return User.find(spotifyAccount.userId)
+    return this.find(spotifyAccount.userId)
   }
 }
