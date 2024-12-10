@@ -25,7 +25,11 @@ export default class SpotifyAuthController {
     const encodedState = encryption.encrypt(JSON.stringify(stateObject))
 
     return await ally.use('spotify').redirect((redirectRequest) => {
-      redirectRequest.scopes(['user-read-email', 'user-read-private'])
+      redirectRequest.scopes([
+        'user-read-email',
+        'user-read-private',
+        'user-read-currently-playing',
+      ])
       redirectRequest.param('state', encodedState)
     })
   }
