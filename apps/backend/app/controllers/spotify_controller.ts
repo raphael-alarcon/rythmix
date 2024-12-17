@@ -9,8 +9,7 @@ export default class SpotifyController {
   constructor(private _spotifyService: SpotifyService) {}
 
   async getCurrentTrack({ auth, request }: HttpContext) {
-    console.log(request)
-    const user = auth.getUserOrFail()
+    const user = await auth.getUserOrFail()
     return await this._spotifyService.getCurrentTrack(user)
   }
 }

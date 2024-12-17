@@ -8,7 +8,6 @@ export default class SpotifyService {
         Authorization: `Bearer ${user.profile.token.token}`,
       },
     })
-    console.log(await response)
     return await response.json()
   }
 }

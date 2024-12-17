@@ -8,7 +8,6 @@ type RegisterParams = Infer<typeof registerValidator>
 export default class UserService {
   async all() {
     const users = await User.all()
-    console.log(users)
     return users
   }
 
