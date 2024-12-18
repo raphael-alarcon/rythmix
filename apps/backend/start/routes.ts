@@ -8,8 +8,9 @@
 */
 
 import router from '@adonisjs/core/services/router'
-import {middleware} from '#start/kernel'
+import { middleware } from '#start/kernel'
 
+const SpotifyController = () => import('#controllers/spotify_controller')
 const AuthController = () => import('#controllers/auth_controller')
 const UsersController = () => import('#controllers/users_controller')
 const SpotifyAuthController = () => import('#controllers/spotify_auth_controller')
@@ -41,3 +42,8 @@ router
 router.get('test', [TestController]).as('test')
 
 router.resource('users', UsersController).apiOnly()
+
+router
+  .get('currentTrack', [SpotifyController, 'getCurrentTrack'])
+  .as('currentTrack')
+  .use(middleware.auth())

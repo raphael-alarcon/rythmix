@@ -10,6 +10,7 @@ import { Button, ButtonIcon } from "@/components/ui/button";
 import { HStack } from "@/components/ui/hstack";
 import useAuthStore from "@/components/providers/auth-provider";
 import { Icons } from "@/components/icons";
+import {Link} from "expo-router";
 
 export function Navbar() {
   const { user, logout } = useAuthStore();
@@ -18,13 +19,16 @@ export function Navbar() {
     <HStack className="w-full items-center justify-between">
       <HStack className="items-center" space={"md"}>
         {user ? (
-          <Avatar size="lg">
-            <AvatarFallbackText>
-              {user.username.toUpperCase()}
-            </AvatarFallbackText>
-            <AvatarImage source={{ uri: user.profile?.avatarUrl }} />
-            <AvatarBadge />
-          </Avatar>
+            <Link href={'/profile'}>
+                <Avatar size="lg">
+                    <AvatarFallbackText>
+                        {user.username.toUpperCase()}
+                    </AvatarFallbackText>
+                    <AvatarImage source={{ uri: user.profile?.avatarUrl }} />
+                    <AvatarBadge />
+                </Avatar>
+            </Link>
+
         ) : null}
         <VStack>
           <Text bold size="xl">
