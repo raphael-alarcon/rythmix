@@ -10,21 +10,16 @@ import { Button, ButtonIcon } from "@/components/ui/button";
 import { HStack } from "@/components/ui/hstack";
 import useAuthStore from "@/components/providers/auth-provider";
 import { Icons } from "@/components/icons";
-import {TouchableOpacity} from "react-native";
-import {router} from "expo-router";
+import {Link} from "expo-router";
 
 export function Navbar() {
   const { user, logout } = useAuthStore();
-
-  const handlePress = () => {
-      router.push('./profile', { relativeToDirectory: true});
-  }
 
   return (
     <HStack className="w-full items-center justify-between">
       <HStack className="items-center" space={"md"}>
         {user ? (
-            <TouchableOpacity onPress={handlePress}>
+            <Link href={'/profile'}>
                 <Avatar size="lg">
                     <AvatarFallbackText>
                         {user.username.toUpperCase()}
@@ -32,7 +27,7 @@ export function Navbar() {
                     <AvatarImage source={{ uri: user.profile?.avatarUrl }} />
                     <AvatarBadge />
                 </Avatar>
-            </TouchableOpacity>
+            </Link>
 
         ) : null}
         <VStack>
