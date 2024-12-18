@@ -9,9 +9,9 @@ export class FriendsService {
   }
 
   async sendRequest(user: User, friend: User) {
-    if (!user || !friend) {
-      throw new Error('User or friend not found')
-    }
+    if (!user) throw new Error('User not found')
+    if (!friend) throw new Error('Friend not found')
+
     await user.related('friends').attach({
       [friend.id]: {
         sender: true,
@@ -21,17 +21,16 @@ export class FriendsService {
   }
 
   async removeFriend(user: User, friend: User) {
-    if (!user || !friend) {
-      throw new Error('User or friend not found')
-    }
+    if (!user) throw new Error('User not found')
+    if (!friend) throw new Error('Friend not found')
+
     await user.related('friends').detach([friend.id])
     await friend.related('friends').detach([user.id])
   }
 
   async answerRequest(user: User, friend: User, action: 'accept' | 'reject') {
-    if (!user || !friend) {
-      throw new Error('User or friend not found')
-    }
+    if (!user) throw new Error('User not found')
+    if (!friend) throw new Error('Friend not found')
 
     // accept -> accepted, reject -> rejected
     const actionResult = `${action}ed`
@@ -49,7 +48,9 @@ export class FriendsService {
   }
 
   async findRequest(user: User, friend: User) {
-    if (!user || !friend) return null
+    if (!user) throw new Error('User not found')
+    if (!friend) throw new Error('Friend not found')
+
     return await user
       .related('friends')
       .query()
@@ -59,9 +60,8 @@ export class FriendsService {
   }
 
   async listRequestsByStatus(user: User, status: FriendStatus) {
-    if (!user) {
-      throw new Error('User not found')
-    }
+    if (!user) throw new Error('User not found')
+
     return await user
       .related('friends')
       .query()

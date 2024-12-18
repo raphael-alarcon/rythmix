@@ -18,7 +18,7 @@ export default function AppLayout() {
   //   );
   // }
 
-  if (!user) {
+  if (!user && !isLoading) {
     return <Redirect href="/register" />;
   }
 

@@ -41,8 +41,8 @@ router.resource('users', UsersController).apiOnly().use(['destroy', 'update'], m
 //#region Friends
 router
   .resource('users.friends', FriendsController)
-  .params({ friends: 'friend_id' })
+  .params({ users: 'id' })
+  .params({ friends: 'friendId' })
   .use('*', middleware.auth())
   .apiOnly()
 //#endregion
- 

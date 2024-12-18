@@ -4,15 +4,15 @@ import { FRIEND_STATUSES } from '#services/friends_service'
 
 export const friendRequestObject = vine.object({
   params: vine.object({
-    user_id: USER_ID_SHAPE,
-    friend_id: USER_ID_SHAPE,
+    id: USER_ID_SHAPE,
+    friendId: USER_ID_SHAPE,
   }),
 })
 
 export const sendFriendRequestValidator = vine.compile(
   vine.object({
     params: vine.object({
-      user_id: USER_ID_SHAPE,
+      id: USER_ID_SHAPE,
     }),
     friendId: USER_ID_SHAPE,
   })
@@ -28,7 +28,7 @@ export const answerFriendRequestValidator = vine.compile(
 export const userFriendsRequestValidator = vine.compile(
   vine.object({
     params: vine.object({
-      user_id: USER_ID_SHAPE,
+      id: USER_ID_SHAPE,
     }),
     status: vine.enum(FRIEND_STATUSES).optional(),
   })

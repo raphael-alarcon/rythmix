@@ -23,7 +23,7 @@ export default class FriendsController {
    */
   async index({ request, bouncer, auth }: HttpContext) {
     const {
-      params: { user_id: userId },
+      params: { id: userId },
       status,
     } = await request.validateUsing(userFriendsRequestValidator)
 
@@ -39,7 +39,7 @@ export default class FriendsController {
    */
   async store({ request, response, bouncer }: HttpContext) {
     const {
-      params: { user_id: userId },
+      params: { id: userId },
       friendId,
     } = await request.validateUsing(sendFriendRequestValidator)
 
@@ -64,7 +64,7 @@ export default class FriendsController {
    */
   async update({ request, bouncer, response, auth }: HttpContext) {
     const { params, action } = await request.validateUsing(answerFriendRequestValidator)
-    const { user_id: userId, friend_id: friendId } = params
+    const { id: userId, friendId } = params
 
     const user = await this.userService.find(userId)
     const friend = await this.userService.find(friendId)
@@ -87,11 +87,10 @@ export default class FriendsController {
    */
   async destroy({ request, auth, bouncer }: HttpContext) {
     const { params } = await request.validateUsing(accessUserFriendDetailsValidator)
-    const { user_id: userId, friend_id: friendId } = params
+    const { id: userId, friendId } = params
 
-    const user = auth.getUserOrFail()
+    const user = await this.userService.find(userId)
     const friend = await this.userService.find(friendId)
-    console.log('ici')
 
     await friend.load('friends')
     await bouncer.with(FriendPolicy).authorize('accessFriends', user)

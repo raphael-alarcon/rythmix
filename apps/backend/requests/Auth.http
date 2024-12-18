@@ -9,9 +9,9 @@ POST http://localhost:3333/users
 Content-Type: application/json
 
 {
-  "email": "test@test2.com",
+  "email": "test@test.com",
   "password": "Test123*",
-  "username": "test2",
+  "username": "test",
   "confirmPassword": "Test123*"
 }
 
@@ -46,11 +46,11 @@ Authorization: Bearer {{auth_token}}
 
 ###
 POST localhost:3333/users/1/friends
-Authorization: Bearer {{auth_token}}
+Authorization: Bearer oat_MTc.cmpMTm5EWDZlWXNRQVhOYVYwT1ozVU1adDJkQzl4UXp1V2ppR2I1YTE1MzQ4MzgxMA
 Content-Type: application/json
 
 {
-  "friendId": 2
+  "friendId": 3
 }
 
 ###

@@ -24,6 +24,9 @@ export default class UserService {
   }
 
   async getUserOwningSpotifyAccount(spotifyAccount: SpotifyAccount) {
+    if (!spotifyAccount.userId) {
+      return null
+    }
     return this.find(spotifyAccount.userId)
   }
 }
