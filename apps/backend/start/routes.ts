@@ -8,19 +8,14 @@
 */
 
 import router from '@adonisjs/core/services/router'
-import {middleware} from '#start/kernel'
+import { middleware } from '#start/kernel'
 
 const AuthController = () => import('#controllers/auth_controller')
 const UsersController = () => import('#controllers/users_controller')
 const SpotifyAuthController = () => import('#controllers/spotify_auth_controller')
-const TestController = () => import('#controllers/tests_controller')
+const FriendsController = () => import('#controllers/friends_controller')
 
-router.get('/', async () => {
-  return {
-    hello: 'world',
-  }
-})
-
+//#region Auth
 router
   .group(() => {
     router.post('/login', [AuthController, 'login']).as('login')
@@ -37,7 +32,17 @@ router
   })
   .prefix('spotify')
   .as('spotify')
+//#endregion
 
-router.get('test', [TestController]).as('test')
+//#region Users
+router.resource('users', UsersController).apiOnly().use(['destroy', 'update'], middleware.auth())
+//#endregion
 
-router.resource('users', UsersController).apiOnly()
+//#region Friends
+router
+  .resource('users.friends', FriendsController)
+  .params({ users: 'id' })
+  .params({ friends: 'friendId' })
+  .use('*', middleware.auth())
+  .apiOnly()
+//#endregion
